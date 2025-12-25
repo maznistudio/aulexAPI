@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VEO API Documentation</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        min-height: 100vh;
+        color: #e4e4e7;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+      h1 {
+        font-size: 2.5rem;
+        background: linear-gradient(90deg, #a855f7, #6366f1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+      }
+      .subtitle {
+        color: #a1a1aa;
+        font-size: 1.1rem;
+        margin-bottom: 40px;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 24px;
+        backdrop-filter: blur(10px);
+      }
+      .card h2 {
+        color: #a855f7;
+        font-size: 1.3rem;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .method {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+      .method.post {
+        background: #22c55e;
+        color: #000;
+      }
+      .method.get {
+        background: #3b82f6;
+        color: #fff;
+      }
+      .endpoint {
+        font-family: "Consolas", monospace;
+        background: rgba(168, 85, 247, 0.2);
+        padding: 4px 10px;
+        border-radius: 6px;
+        color: #c4b5fd;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      th {
+        color: #a1a1aa;
+        font-weight: 500;
+      }
+      code {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "Consolas", monospace;
+        font-size: 0.9em;
+        color: #fbbf24;
+      }
+      pre {
+        background: #0d0d0d;
+        border-radius: 12px;
+        padding: 20px;
+        overflow-x: auto;
+        margin-top: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      pre code {
+        background: none;
+        padding: 0;
+        color: #e4e4e7;
+      }
+      .required {
+        color: #ef4444;
+        font-size: 0.8em;
+      }
+      .optional {
+        color: #6b7280;
+        font-size: 0.8em;
+      }
+      .auth-note {
+        background: linear-gradient(
+          90deg,
+          rgba(168, 85, 247, 0.2),
+          rgba(99, 102, 241, 0.2)
+        );
+        border-left: 4px solid #a855f7;
+        padding: 16px 20px;
+        border-radius: 0 12px 12px 0;
+        margin-bottom: 24px;
+      }
+      .auth-note h3 {
+        color: #a855f7;
+        margin-bottom: 8px;
+      }
+      .copy-btn {
+        background: #a855f7;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        transition: all 0.2s;
+      }
+      .copy-btn:hover {
+        background: #9333ea;
+        transform: translateY(-1px);
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        margin-left: 8px;
+      }
+      .badge.success {
+        background: rgba(34, 197, 94, 0.2);
+        color: #22c55e;
+      }
+      .badge.error {
+        background: rgba(239, 68, 68, 0.2);
+        color: #ef4444;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎬 VEO API</h1>
+      <p class="subtitle">Video Generation API powered by Google Labs Flow</p>
+
+      <div class="auth-note">
+        <h3>🔐 Authentication</h3>
+        <p>
+          All API requests require an API key. Include it in your request
+          header:
+        </p>
+        <pre><code>x-api-key: YOUR_API_KEY</code></pre>
+        <p style="margin-top: 10px">or</p>
+        <pre><code>Authorization: Bearer YOUR_API_KEY</code></pre>
+      </div>
+
+      <!-- Health Check -->
+      <div class="card">
+        <h2>
+          <span class="method get">GET</span>
+          <span class="endpoint">/health</span>
+        </h2>
+        <p>Check if the API server is running.</p>
+        <h4 style="margin-top: 16px; color: #a1a1aa">Response</h4>
+        <pre><code>{
+  "status": "ok",
+  "timestamp": "2025-12-25T12:00:00.000Z"
+}</code></pre>
+      </div>
+
+      <!-- Generate Video -->
+      <div class="card">
+        <h2>
+          <span class="method post">POST</span>
+          <span class="endpoint">/api/veo</span>
+        </h2>
+        <p>
+          Generate video using AI. Supports text-to-video and image-to-video
+          modes.
+        </p>
+
+        <h4 style="margin-top: 20px; color: #a1a1aa">Request Body</h4>
+        <table>
+          <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td><code>prompt</code> <span class="required">required</span></td>
+            <td>string</td>
+            <td>Description of the video to generate</td>
+          </tr>
+          <tr>
+            <td><code>mode</code> <span class="optional">optional</span></td>
+            <td>string</td>
+            <td>
+              <code>text-to-video</code> (default) or
+              <code>frames-to-video</code>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>aspectRatio</code> <span class="optional">optional</span>
+            </td>
+            <td>string</td>
+            <td><code>landscape</code> (default) or <code>portrait</code></td>
+          </tr>
+          <tr>
+            <td>
+              <code>outputsCount</code> <span class="optional">optional</span>
+            </td>
+            <td>number</td>
+            <td>Number of videos: 1-4 (default: 1)</td>
+          </tr>
+          <tr>
+            <td>
+              <code>startFrameBase64</code>
+              <span class="optional">optional</span>
+            </td>
+            <td>string</td>
+            <td>Base64 encoded image for image-to-video mode</td>
+          </tr>
+        </table>
+
+        <h4 style="margin-top: 20px; color: #a1a1aa">Example: Text to Video</h4>
+        <pre><code>{
+  "prompt": "A golden retriever running through a meadow at sunset",
+  "aspectRatio": "landscape",
+  "outputsCount": 1
+}</code></pre>
+
+        <h4 style="margin-top: 20px; color: #a1a1aa">
+          Example: Image to Video
+        </h4>
+        <pre><code>{
+  "prompt": "The scene comes alive with gentle wind movement",
+  "mode": "frames-to-video",
+  "aspectRatio": "landscape",
+  "startFrameBase64": "data:image/jpeg;base64,/9j/4AAQ..."
+}</code></pre>
+
+        <h4 style="margin-top: 20px; color: #a1a1aa">
+          Response <span class="badge success">200 OK</span>
+        </h4>
+        <pre><code>{
+  "success": true,
+  "videoUrls": [
+    "https://storage.googleapis.com/ai-sandbox-videofx/video/..."
+  ]
+}</code></pre>
+
+        <h4 style="margin-top: 20px; color: #a1a1aa">
+          Error Response <span class="badge error">4xx/5xx</span>
+        </h4>
+        <pre><code>{
+  "error": "Error message description"
+}</code></pre>
+      </div>
+
+      <!-- cURL Examples -->
+      <div class="card">
+        <h2>📋 cURL Examples</h2>
+
+        <h4 style="margin-top: 16px; color: #a1a1aa">Text to Video</h4>
+        <pre><code>curl -X POST http://localhost:3000/api/veo \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: YOUR_API_KEY" \
+  -d '{
+    "prompt": "A cat playing with a ball",
+    "aspectRatio": "landscape"
+  }'</code></pre>
+
+        <h4 style="margin-top: 20px; color: #a1a1aa">
+          Image to Video (PowerShell)
+        </h4>
+        <pre><code>$base64 = [Convert]::ToBase64String([IO.File]::ReadAllBytes("image.jpg"))
+$body = @{
+  prompt = "The scene comes alive"
+  mode = "frames-to-video"
+  startFrameBase64 = "data:image/jpeg;base64,$base64"
+} | ConvertTo-Json
+
+Invoke-RestMethod -Uri "http://localhost:3000/api/veo" `
+  -Method POST -Body $body `
+  -ContentType "application/json" `
+  -Headers @{"x-api-key"="YOUR_API_KEY"}</code></pre>
+      </div>
+
+      <p style="text-align: center; color: #6b7280; margin-top: 40px">
+        VEO API Server &copy; 2025
+      </p>
+    </div>
+  </body>
+</html>
