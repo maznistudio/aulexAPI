@@ -33,10 +33,14 @@ app.use((_req: Request, res: Response) => {
   res.status(404).json({ error: 'Not found' })
 })
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`[Server] Running on http://localhost:${PORT}`)
-  console.log(`[Server] API Docs: http://localhost:${PORT}/`)
-  console.log(`[Server] VEO API: POST http://localhost:${PORT}/api/veo`)
+// Start server - bind to 0.0.0.0 for external access
+const HOST = process.env.HOST || '0.0.0.0'
+const PUBLIC_IP = process.env.PUBLIC_IP || '92.111.11.30'
+
+app.listen(Number(PORT), HOST, () => {
+  console.log(`[Server] Running on http://${HOST}:${PORT}`)
+  console.log(`[Server] Local access: http://localhost:${PORT}/`)
+  console.log(`[Server] Public access: http://${PUBLIC_IP}:${PORT}/`)
+  console.log(`[Server] VEO API: POST http://${PUBLIC_IP}:${PORT}/api/veo`)
   console.log(`[Server] API Key: ${process.env.API_KEY ? 'Configured ✓' : 'Using default (set API_KEY in .env.local)'}`)
 })
